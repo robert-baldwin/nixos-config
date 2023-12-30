@@ -20,7 +20,7 @@
   home.packages = with pkgs; [
     git
     delta
-    alacritty
+    kitty
     neovim
     discord
     floorp
@@ -63,7 +63,7 @@
   programs.fish.enable = true;
 
   # Let Home Manager manage alacritty.
-  programs.alacritty.enable = true;
+  programs.kitty.enable = true;
 
   # Let Home Manager manage git.
   programs.git = {

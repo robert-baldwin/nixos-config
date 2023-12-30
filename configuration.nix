@@ -45,12 +45,13 @@
   # Enable the X11 windowing system.
   services.xserver.enable = true;
 
-  # Force Wayland on Electron apps
-  environment.sessionVariables.NIXOS_OZONE_WL = "1";
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1"; # Use Wayland on Electron apps
+  };
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
 
   # Configure keymap in X11
   services.xserver = {
@@ -75,8 +76,19 @@
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-gtk
+    ];
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  # Enable bluetooth with blueman.
+  services.blueman.enable = true;
+  hardware.bluetooth.enable = true;
 
   # Enable sound with pipewire.
   sound.enable = true;
@@ -112,13 +124,30 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    # wget
+    waybar
+    mako
+    libnotify
+    swww
+    rofi-wayland
+  ];
+
+  fonts.fontDir.enable = true;
+  fonts.packages = with pkgs; [
+    nerdfonts
+    font-awesome
+    google-fonts
   ];
 
   # Configure fish as default shell
   environment.shells = with pkgs; [ fish ];
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
+
+  programs.hyprland = {
+    enable = true;
+    enableNvidiaPatches = true;
+    xwayland.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
