@@ -130,6 +130,7 @@
     libnotify
     swww
     rofi-wayland
+    networkmanagerapplet
   ];
 
   fonts.fontDir.enable = true;
