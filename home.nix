@@ -19,6 +19,7 @@
   # environment.
   home.packages = with pkgs; [
     git
+    delta
     alacritty
     neovim
     discord
@@ -69,7 +70,17 @@
     enable = true;
     userName = "Robert Baldwin";
     userEmail = "rob.baldwin@hey.com";
-    extraConfig.init.defaultBranch = "main";
+    extraConfig = {
+      init.defaultBranch = "main";
+      core.pager = "delta";
+      interactive.diffFilter = "delta --color-only";
+      merge.conflictstyle = "diff3";
+      diff.colorMoved = "default";
+      delta = {
+        navigate = true;
+	side-by-side = true;
+      };
+    };
   };
 
   # Let Home Manager install and manage itself.
