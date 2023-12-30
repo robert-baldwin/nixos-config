@@ -46,6 +46,7 @@
   services.xserver.enable = true;
 
   environment.sessionVariables = {
+    WLR_NO_HARDWARE_CURSORS = "1"; # Fix to display cursor
     NIXOS_OZONE_WL = "1"; # Use Wayland on Electron apps
   };
 
