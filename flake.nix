@@ -1,13 +1,21 @@
 {
-  description = "My first flake!";
+  description = "Kilgore Sprout NixOS";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
-    home-manager.url = "github:nix-community/home-manager/release-23.11";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    home-manager = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
+    ghostty.url = "git+ssh://git@github.com/mitchellh/ghostty";
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, ghostty, hyprland, ... } @ inputs:
     let
       lib = nixpkgs.lib;
       system = "x86_64-linux";
@@ -15,14 +23,23 @@
     in {
     nixosConfigurations = {
       nixos = lib.nixosSystem {
+        specialArgs = { inherit inputs; };
         inherit system;
-	modules = [ ./configuration.nix ];
+        modules = [
+          ./configuration.nix
+          hyprland.nixosModules.default
+          {
+            environment.systemPackages = [
+              ghostty.packages.x86_64-linux.default
+            ];
+          }
+        ];
       };
     };
     homeConfigurations = {
       sprout = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-	modules = [ ./home.nix ];
+        modules = [ ./home.nix ];
       };
     };
   };

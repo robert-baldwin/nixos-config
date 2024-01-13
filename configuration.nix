@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ inputs, config, pkgs, ... }:
 
 {
   imports =
@@ -15,7 +15,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+  # networking.wireless.enable = true; # Enables wireless support via wpa_supplicant.
 
   # Configure network proxy if necessary
   # networking.proxy.default = "http://user:password@proxy:port/";
@@ -43,9 +43,19 @@
   };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "nvidia" ];
+  };
 
+  # Recommended environment variables for Nvidia
+  # https://wiki.hyprland.org/hyprland-wiki/pages/Nvidia/#how-to-get-hyprland-to-possibly-work-on-nvidia
   environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "nvidia";
+    GDK_BACKEND = "wayland";
+    XDG_SESSION_TYPE = "wayland";
+    GDM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     WLR_NO_HARDWARE_CURSORS = "1"; # Fix to display cursor
     NIXOS_OZONE_WL = "1"; # Use Wayland on Electron apps
   };
@@ -65,10 +75,10 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      mesa.drivers
+    ];
   };
-
-  # Load nvidia drivers in X11
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
     modesetting.enable = true;
@@ -79,13 +89,10 @@
 
   xdg.portal = {
     enable = true;
-    extraPortals = with pkgs; [
-      xdg-desktop-portal-gtk
-    ];
   };
 
   # Enable CUPS to print documents.
-  services.printing.enable = true;
+  services.printing.enable = false;
 
   # Enable bluetooth with blueman.
   services.blueman.enable = true;
@@ -100,8 +107,8 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
+    wireplumber.enable = true;
+    # jack.enable = true;
 
     # use the example session manager (no others are packaged yet so this is enabled by default,
     # no need to redefine it in your config for now)
@@ -115,29 +122,47 @@
   users.users.sprout = {
     isNormalUser = true;
     description = "Robert Baldwin";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [];
+    extraGroups = [ "networkmanager" "wheel" "video" ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
+  # Install Docker
+  virtualisation.docker.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    waybar
+    cachix
+    eww-wayland
+    sysstat
     mako
     libnotify
+    fuzzel
+    docker-compose
     swww
-    rofi-wayland
-    networkmanagerapplet
+    (pkgs.vesktop.overrideAttrs (old: rec {
+      src = pkgs.fetchFromGitHub {
+        owner = "Vencord";
+        repo = "Vesktop";
+        rev = "2f35128acfb567ab69d6feae7168b63c41c780eb";
+        sha256 = "sha256-W01wiTJjnaIq6TjYOMzTNywT8Ti6rFxpGyFszoWOnvQ=";
+      };
+      pnpmDeps = old.pnpmDeps.overrideAttrs (old': {
+        inherit src;
+        inherit (old') version patches ELECTRON_SKIP_BINARY_DOWNLOAD;
+        outputHashAlgo = "sha256";
+        outputHash = "sha256-7Lk/4sv2LnX8vNH3womx4kwR9p67XXtk8rGeuiKTzFQ=";
+      });
+    }))
   ];
 
   fonts.fontDir.enable = true;
   fonts.packages = with pkgs; [
     nerdfonts
-    font-awesome
     google-fonts
+    font-awesome
   ];
 
   # Configure fish as default shell
@@ -145,10 +170,16 @@
   users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
 
+  nix.settings = {
+    substituters = ["https://hyprland.cachix.org"];
+    trusted-public-keys = ["hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="];
+  };
+
   programs.hyprland = {
     enable = true;
-    enableNvidiaPatches = true;
     xwayland.enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    portalPackage = inputs.xdg-desktop-portal-hyprland.packages."${pkgs.system}".xdg-desktop-portal-hyprland;
   };
 
   # Some programs need SUID wrappers, can be configured further or are
