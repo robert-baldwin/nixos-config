@@ -13,14 +13,18 @@
       unzip
       cargo
       rustc
+      elixir
       gcc
       gnumake
     ];
     plugins = with pkgs.vimPlugins; [
+      alpha-nvim
+      barbecue-nvim
+      lualine-nvim
       rose-pine
       harpoon
       undotree
-      fugitive
+      neogit
       telescope-nvim
       lsp-zero-nvim
       mason-nvim
@@ -117,8 +121,10 @@
       vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
       vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 
-      -- fugitive.lua
-      vim.keymap.set("n", "<leader>gs", vim.cmd.Git);
+      -- neogit.lua
+      local neogit = require('neogit')
+      neogit.setup {}
+      vim.keymap.set("n", "<leader>gs", "<cmd>Neogit kind=floating<CR>");
 
       -- colors.lua
    	  color = color or "rose-pine"
@@ -222,6 +228,15 @@
 
       -- undotree.lua
       vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
+
+      -- alpha.lua
+      require'alpha'.setup(require'alpha.themes.startify'.config)
+
+      -- barbecue.lua
+      require("barbecue").setup()
+
+      -- lualine.lua
+      require('lualine').setup()
     '';
   };
 }
