@@ -19,6 +19,7 @@
     libnotify
     docker-compose
     swww
+    spotify
     (pkgs.vesktop.overrideAttrs (old: rec {
       src = pkgs.fetchFromGitHub {
         owner = "Vencord";
