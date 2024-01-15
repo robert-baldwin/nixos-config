@@ -35,6 +35,7 @@
       });
     }))
     socat
+    playerctl
     ripgrep
     jq
     git
