@@ -52,6 +52,7 @@
         erlang
         markdown
         sql
+        yuck
       ]))
     ];
     extraLuaConfig = ''
