@@ -2,6 +2,7 @@
 
 {
   imports = [
+    ./programs/hyprland.nix
     ./programs/rofi.nix
     ./programs/nvim.nix
     ./programs/git.nix

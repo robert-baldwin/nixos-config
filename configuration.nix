@@ -48,14 +48,7 @@
     videoDrivers = [ "nvidia" ];
   };
 
-  # Recommended environment variables for Nvidia
-  # https://wiki.hyprland.org/hyprland-wiki/pages/Nvidia/#how-to-get-hyprland-to-possibly-work-on-nvidia
   environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "nvidia";
-    GDK_BACKEND = "wayland";
-    XDG_SESSION_TYPE = "wayland";
-    GDM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     WLR_NO_HARDWARE_CURSORS = "1"; # Fix to display cursor
     NIXOS_OZONE_WL = "1"; # Use Wayland on Electron apps
   };

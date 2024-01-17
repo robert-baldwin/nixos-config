@@ -27,7 +27,6 @@
         inherit system;
         modules = [
           ./configuration.nix
-          hyprland.nixosModules.default
           {
             environment.systemPackages = [
               ghostty.packages.x86_64-linux.default
@@ -39,7 +38,14 @@
     homeConfigurations = {
       sprout = home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
-        modules = [ ./home.nix ];
+        modules = [
+          ./home.nix
+          hyprland.homeManagerModules.default
+          {
+            wayland.windowManager.hyprland.enable = true;
+          }
+
+        ];
       };
     };
   };
