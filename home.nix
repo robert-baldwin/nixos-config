@@ -25,14 +25,14 @@
       src = pkgs.fetchFromGitHub {
         owner = "Vencord";
         repo = "Vesktop";
-        rev = "2f35128acfb567ab69d6feae7168b63c41c780eb";
-        sha256 = "sha256-W01wiTJjnaIq6TjYOMzTNywT8Ti6rFxpGyFszoWOnvQ=";
+        rev = "v1.5.0";
+        sha256 = "sha256-27998q9wbaNP1xYY+KHTBeJRfR6Q/K0LNdbRb3YHC6c=";
       };
       pnpmDeps = old.pnpmDeps.overrideAttrs (old': {
         inherit src;
         inherit (old') version patches ELECTRON_SKIP_BINARY_DOWNLOAD;
         outputHashAlgo = "sha256";
-        outputHash = "sha256-7Lk/4sv2LnX8vNH3womx4kwR9p67XXtk8rGeuiKTzFQ=";
+        outputHash = "sha256-cnk+KFdvsgG1wGDib7zgIS6/RkrR5EYAHtHcrFSU0Es=";
       });
     }))
     socat
