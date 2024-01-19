@@ -128,11 +128,12 @@
       vim.keymap.set("n", "<leader>gs", "<cmd>Neogit kind=floating<CR>");
 
       -- colors.lua
-   	  color = color or "rose-pine"
-	  vim.cmd.colorscheme(color)
-
-	  vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-	  vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+      require('rose-pine').setup({
+        variant = "main"
+      })
+      vim.cmd.colorscheme("rose-pine")
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
       -- harpoon.lua
       local mark = require("harpoon.mark")
@@ -216,16 +217,20 @@
       vim.keymap.set('n', '<leader>pf', builtin.find_files, {})
       vim.keymap.set('n', '<C-p>', builtin.git_files, {})
       vim.keymap.set('n', '<leader>ps', function()
-      	builtin.grep_string({ search = vim.fn.input("grep > ") });
+        builtin.grep_string({ search = vim.fn.input("grep > ") });
       end)
 
       -- treesitter.lua
       require'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
-          additional_vim_regex_highlighting = false,
+          additional_vim_regex_highlighting = true,
+          set_custom_captures = {
+            ['constant.builtin'] = '@symbol.elixir',
+          }
         },
       }
+      vim.api.nvim_command('highlight @symbol.elixir guifg=#f6c177')
 
       -- undotree.lua
       vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle)
