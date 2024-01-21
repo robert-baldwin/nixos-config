@@ -6,6 +6,8 @@
     ./programs/rofi.nix
     ./programs/nvim.nix
     ./programs/git.nix
+    ./programs/bash.nix
+    ./programs/zsh.nix
     ./programs/fish.nix
     ./programs/starship.nix
   ];
@@ -21,20 +23,7 @@
     docker-compose
     swww
     spotify
-    (pkgs.vesktop.overrideAttrs (old: rec {
-      src = pkgs.fetchFromGitHub {
-        owner = "Vencord";
-        repo = "Vesktop";
-        rev = "v1.5.0";
-        sha256 = "sha256-27998q9wbaNP1xYY+KHTBeJRfR6Q/K0LNdbRb3YHC6c=";
-      };
-      pnpmDeps = old.pnpmDeps.overrideAttrs (old': {
-        inherit src;
-        inherit (old') version patches ELECTRON_SKIP_BINARY_DOWNLOAD;
-        outputHashAlgo = "sha256";
-        outputHash = "sha256-cnk+KFdvsgG1wGDib7zgIS6/RkrR5EYAHtHcrFSU0Es=";
-      });
-    }))
+    vesktop
     socat
     playerctl
     ripgrep
@@ -44,6 +33,7 @@
     wl-clipboard
     floorp
     _1password-gui
+    libreoffice
   ];
 
   nixpkgs.config.allowUnfree = true;

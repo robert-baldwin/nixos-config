@@ -114,6 +114,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.sprout = {
     isNormalUser = true;
+    shell = pkgs.fish;
     description = "Robert Baldwin";
     extraGroups = [ "networkmanager" "wheel" "video" ];
   };
@@ -138,9 +139,8 @@
   ];
 
   # Configure fish as default shell
-  environment.shells = with pkgs; [ fish ];
-  users.defaultUserShell = pkgs.fish;
   programs.fish.enable = true;
+  users.defaultUserShell = pkgs.fish;
 
   programs.hyprland = {
     enable = true;
