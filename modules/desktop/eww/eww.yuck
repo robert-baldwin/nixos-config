@@ -1,0 +1,103 @@
+(deflisten generate-workspaces "scripts/workspaces.sh")
+(defwidget workspaces []
+  (literal :content generate-workspaces))
+(defpoll current_audio :interval "1s" "scripts/current_audio.sh")
+(defpoll clock_hour :interval "5s" `date +%H`)
+(defpoll clock_minute :interval "5s" `date +%M`)
+(defpoll clock_date :interval "1m" `date +%m/%d`)
+(defpoll volume_percent :interval "3s" `amixer -D pipewire sget Master | grep 'Left:' | awk -F'[][]' '{ print $2 }' | tr -d '%'`)
+(defvar reveal_volume false)
+(defvar reveal_date false)
+(defvar reveal_calendar false)
+
+(defpoll memory :interval "1s" `free -m | grep "Mem" | awk '{print ($3/$2)*100}' | xargs printf "%.2f"`)
+(defpoll cpu :interval "1s" `mpstat 1 1 | grep "Average" | awk '{print 100-$12}'`)
+
+(defwidget audio []
+  (label :text {current_audio == "" ? "" : "🎶 ${current_audio}"}))
+
+(defwidget volume []
+  (eventbox :onhover `eww update reveal_volume=true` :onhoverlost `eww update reveal_volume=false`
+    (box :class "volume" :space-evenly "false" :orientation "h"
+      (box :space-evenly "false"
+        (label :text "🎧 "))
+      (revealer :transition "slideleft" :reveal reveal_volume :duration "350ms"
+        (scale
+          :class "volume"
+          :value volume_percent
+          :orientation "h"
+          :tooltip "${volume_percent}"
+          :max 100
+          :min 0
+          :onchange `amixer -D pipewire sset Master {}%`)))))
+
+(defwidget system []
+  (box
+    (box :class "cpu-module"
+      (circular-progress
+        :class "cpu-bar"
+        :value cpu
+        :thickness 4
+        (button
+          :class "cpu-icon"
+          :tooltip "using ${cpu}% cpu"
+          "")))
+    (box :class "memory-module"
+      (circular-progress
+        :class "memory-bar"
+        :value memory
+        :thickness 4
+        (button
+          :class "memory-icon"
+          :tooltip "using ${memory}% ram"
+	  "")))))
+
+(defwidget clock []
+  (eventbox :onhover `eww update reveal_date=true` :onhoverlost `eww update reveal_date=false`
+    (box :space-evenly "false" :orientation "h"
+      (box :class "clock_time" :space-evenly "false" :spacing "3"
+        (label :text clock_hour)
+        (label :text ":")
+        (label :text clock_minute))
+      (revealer :transition "slideleft" :reveal reveal_date :duration "350ms"
+		(button :class "clock_date"
+		  :onclick "scripts/toggle_calendar.sh" clock_date)))))
+
+(defwidget left []
+  (box :orientation "h" :space-evenly false :halign "start"
+    (workspaces)))
+
+(defwidget center []
+  (box :orientation "h" :space-evenly false :halign "center"
+    (audio)))
+
+(defwidget right []
+  (box :orientation "h" :space-evenly false :halign "end" :spacing 3 
+    (volume)
+    (label :class "separator" :text "|")
+    (system)
+    (label :class "separator" :text "|")
+    (clock)))
+
+(defwidget bar []
+  (centerbox :class "bar"
+    (left)
+    (center)
+    (right)))
+
+(defwindow bar
+           :monitor 0
+           :geometry (geometry :x "0%"
+                               :y "1%"
+                               :width "99%"
+                               :height "3.5%"
+                               :anchor "top center")
+           :stacking "fg"
+	   :exclusive "true"
+	   :focusable "false"
+  (bar))
+
+(defwindow calendar
+  :monitor 0
+  :geometry (geometry :x "0.5%" :y "4px" :anchor "top right" :width "270px" :height "60px")
+  (calendar :class "calendar"))

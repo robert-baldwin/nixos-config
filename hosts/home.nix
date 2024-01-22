@@ -2,21 +2,21 @@
 
 {
   imports = [
-    ./programs/hyprland.nix
-    ./programs/rofi.nix
-    ./programs/nvim.nix
-    ./programs/git.nix
-    ./programs/bash.nix
-    ./programs/zsh.nix
-    ./programs/fish.nix
-    ./programs/starship.nix
+    ../modules/desktop/hyprland.nix
+    ../modules/desktop/eww.nix
+    ../modules/programs/rofi.nix
+    ../modules/programs/nvim.nix
+    ../modules/programs/git.nix
+    ../modules/programs/bash.nix
+    ../modules/programs/zsh.nix
+    ../modules/programs/fish.nix
+    ../modules/programs/starship.nix
   ];
 
   home.username = "sprout";
   home.homeDirectory = "/home/sprout";
   home.stateVersion = "23.11"; # Do not change this value without checking release notes.
   home.packages = with pkgs; [
-    eww-wayland
     sysstat
     mako
     libnotify
