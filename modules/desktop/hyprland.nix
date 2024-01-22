@@ -12,9 +12,6 @@
       "XDG_SESION_TYPE,wayland"
       "XDG_SESSION_DESKTOP,Hyprland"
       "XCURSOR_SIZE,24"
-      "GBM_BACKEND,nvidia-drm"
-      "__GLX_VENDOR_LIBRARY_NAME,nvidia"
-      "LIBVA_DRIVER_NAME,nvidia"
     ];
     decoration = {
       rounding = 10;

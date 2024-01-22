@@ -28,6 +28,9 @@
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1"; # Fix to display cursor
     NIXOS_OZONE_WL = "1"; # Use Wayland on Electron apps
+    GBM_BACKEND = "nvidia-drm";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    LIBVA_DRIVER_NAME = "nvidia";
   };
 
 
