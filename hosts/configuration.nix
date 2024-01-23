@@ -57,6 +57,7 @@
   environment.systemPackages = with pkgs; [
     curl
     wget
+    home-manager
   ];
 
   # Install fonts
@@ -69,6 +70,7 @@
 
   # Configure login manager
   services.xserver = {
+    enable = true;
     displayManager.gdm.enable = true;
     layout = "us";
     xkbVariant = "";
