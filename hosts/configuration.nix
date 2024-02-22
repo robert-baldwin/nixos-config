@@ -9,7 +9,7 @@
   system.stateVersion = "23.11"; # Do not change. Read `man configuration.nix`
 
   # Set time zone.
-  time.timeZone = "America/New_York";
+  time.timeZone = "America/Chicago";
 
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
@@ -58,6 +58,7 @@
     curl
     wget
     home-manager
+    cachix
   ];
 
   # Install fonts
@@ -102,6 +103,8 @@
   };
   programs.fish.enable = true;
 
+  # Set trusted users for cachix
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 
   # Flake support
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
