@@ -1,7 +1,7 @@
 {
   wayland.windowManager.hyprland.settings = {
     "$mainMod" = "SUPER";
-    monitor = ",preferred,auto,2";
+    monitor = ",preferred,auto,1";
     env = [
       "HYPRLAND_LOG_WLR,1"
       "GDK_BACKEND,wayland,x11"

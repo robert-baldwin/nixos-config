@@ -73,8 +73,10 @@
   services.xserver = {
     enable = true;
     displayManager.gdm.enable = true;
-    layout = "us";
-    xkbVariant = "";
+    xkb = {
+      layout = "us";
+      variant = "";
+    };
   };
 
   # Enable bluetooth with blueman

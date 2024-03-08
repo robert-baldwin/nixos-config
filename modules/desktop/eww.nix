@@ -3,7 +3,7 @@
 {
   programs.eww = {
     enable = true;
-    package = pkgs.eww-wayland;
+    package = pkgs.eww;
     configDir = config.lib.file.mkOutOfStoreSymlink ./eww;
   };
 }
