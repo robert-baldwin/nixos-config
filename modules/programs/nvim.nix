@@ -33,6 +33,7 @@
       nvim-cmp
       cmp-nvim-lsp
       luasnip
+      vim-astro
       (nvim-treesitter.withPlugins (p: with p; [
         nix
         vim
@@ -53,6 +54,7 @@
         markdown
         sql
         yuck
+        astro
       ]))
     ];
     extraLuaConfig = ''
@@ -183,7 +185,8 @@
           'elp',
           'marksman',
           'ruby_ls',
-          'sqlls'
+          'sqlls',
+          'astro'
         },
         handlers = {
           lsp_zero.default_setup,

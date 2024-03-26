@@ -35,6 +35,8 @@
     floorp
     _1password-gui
     libreoffice
+    obsidian
+    zoom-us
   ];
 
   nixpkgs.config.allowUnfree = true;

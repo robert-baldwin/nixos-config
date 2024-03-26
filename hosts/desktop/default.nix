@@ -49,6 +49,12 @@
     '';
   };
 
+  users.users.sprout = {
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINnshIeZevS3WFcrkD9CxJwXqM/Ftdr+vQ/fjgd/Ztx2 rob.baldwin@hey.com"
+    ];
+  };
+
   users.extraUsers.doug = {
     isNormalUser = true;
     openssh.authorizedKeys.keys = [
