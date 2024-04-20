@@ -41,7 +41,7 @@
       "$mainMod, J, togglesplit"
       "$mainMod, P, pseudo"
       "$mainMod, V, togglefloating"
-      "$mainMod, S, togglespecialworkspace, magic"
+      "$mainMod, R, togglespecialworkspace, magic"
       "$mainMod SHIFT, S, movetoworkspace, special:magic"
       "$mainMod, left, movefocus, l"
       "$mainMod, right, movefocus, r"

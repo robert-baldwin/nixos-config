@@ -60,15 +60,15 @@ render
 # listen to hyprland socket for relevant updates
 socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - |
   while read -r event; do
-    if [[ "${event:0:9}" == "workspace" ]]; then
+    if [[ "${event:0:11}" == "workspace>>" && "${event:11}" =~ ^[0-9]+$ ]]; then
       workspaces[$active_workspace-1]="o" # set previously active workspace to occupied
       active_workspace=${event:11} # update active_workspace reference
       workspaces[$active_workspace-1]="a" # set new active workspace
       render
-    elif [[ "${event:0:15}" == "createworkspace" && "${event:17}" =~ ^[0-9]+$ ]]; then
+    elif [[ "${event:0:17}" == "createworkspace>>" && "${event:17}" =~ ^[0-9]+$ ]]; then
       workspaces[${event:17}-1]="o" # mark occupied
       render
-    elif [[ "${event:0:16}" == "destroyworkspace" && "${event:18}" =~ ^[0-9]+$ ]]; then
+    elif [[ "${event:0:18}" == "destroyworkspace>>" && "${event:18}" =~ ^[0-9]+$ ]]; then
       workspaces[${event:18}-1]="u" # mark unoccupied
       render
     fi
