@@ -34,6 +34,9 @@
       cmp-nvim-lsp
       luasnip
       vim-astro
+      avante-nvim
+      nvim-web-devicons
+      neo-tree-nvim
       (nvim-treesitter.withPlugins (p: with p; [
         nix
         vim
@@ -58,6 +61,20 @@
       ]))
     ];
     extraLuaConfig = ''
+      local function read_file(filepath)
+        local file = io.open(filepath, "r")  -- Open the file in read mode
+        if not file then
+          error("Could not open file: " .. filepath)
+        end
+
+        local content = file:read("*all")    -- Read the entire file content
+        file:close()                         -- Close the file
+        return content
+      end
+
+      -- Set environment variables from secrets
+      vim.env.OPENAI_API_KEY = read_file("/home/sprout/.config/sops-nix/secrets/openai_key")
+
       -- set.lua
       vim.opt.nu = true
       vim.opt.relativenumber = true
@@ -173,7 +190,7 @@
           'nil_ls',
           'vimls',
           'lua_ls',
-          'tsserver',
+          'ts_ls',
           'rust_analyzer',
           'elixirls',
           'pyright',
@@ -184,7 +201,7 @@
           'bashls',
           'elp',
           'marksman',
-          'ruby_ls',
+          'ruby_lsp',
           'sqlls',
           'astro'
         },
@@ -246,6 +263,15 @@
 
       -- lualine.lua
       require('lualine').setup()
+
+      -- avante.lua
+      require('avante_lib').load()
+      require('avante').setup({
+        provider = "openai",
+        behavior = {
+          auto_suggestions = true,
+        }
+      })
     '';
   };
 }
