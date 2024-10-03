@@ -1,4 +1,3 @@
-{ pkgs, ... }:
 { pkgs, inputs, config, ... }:
 
 {
@@ -42,6 +41,41 @@
     slack
   ];
 
+  home.pointerCursor =
+    let
+      getFrom = owner: repo: rev: sha256: folder: name: {
+          gtk.enable = true;
+          x11.enable = true;
+          name = name;
+          size = 48;
+          package =
+            pkgs.runCommand "moveUp" {} ''
+              mkdir -p $out/share/icons
+              cp -r ${pkgs.fetchFromGitHub {
+                owner = owner;
+                repo = repo;
+                rev = rev;
+                sha256 = sha256;
+              }}/${folder} $out/share/icons/${name}
+            '';
+        };
+    in
+      getFrom 
+        "milkmadedev"
+        "oreo-cursors-compiled"
+        "main"
+        "sha256-7PKf6vjczutFXEGLomeZy6b0SeS0LrdAvoskWg4GwVo="
+        "oreo_spark_orange_cursors"
+        "Oreo-Orange-Cursors";
+
+  gtk = {
+    enable = true;
+    cursorTheme = {
+      name = "Oreo-Orange-Cursors";
+      size = 48;
+    };
+  };
+
   sops = {
     defaultSopsFile = ./secrets/secrets.yaml;
     defaultSopsFormat = "yaml";
@@ -49,6 +83,11 @@
     secrets = {
       openai_key = { };
     };
+  };
+
+  home.sessionVariables = {
+    HYPRCURSOR_THEME = "Oreo-Orange-Cursors";
+    HYPRCURSOR_SIZE = 48;
   };
 
   nixpkgs.config.allowUnfree = true;
