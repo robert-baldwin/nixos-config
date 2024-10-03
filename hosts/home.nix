@@ -37,6 +37,7 @@
     libreoffice
     obsidian
     zoom-us
+    slack
   ];
 
   nixpkgs.config.allowUnfree = true;
