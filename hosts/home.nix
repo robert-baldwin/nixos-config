@@ -23,7 +23,6 @@
     libnotify
     docker-compose
     swww
-    kitty
     spotify
     vesktop
     socat
