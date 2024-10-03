@@ -13,11 +13,8 @@
   };
 
   # OpenGL support
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    setLdLibraryPath = true;
     extraPackages = with pkgs; [
       mesa.drivers
     ];
