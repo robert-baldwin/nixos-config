@@ -11,6 +11,7 @@
     ../modules/programs/zsh.nix
     ../modules/programs/fish.nix
     ../modules/programs/starship.nix
+    ../modules/programs/lazygit.nix
   ];
 
   home.username = "sprout";
