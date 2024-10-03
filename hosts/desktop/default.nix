@@ -7,6 +7,7 @@
   environment.sessionVariables = {
     WLR_NO_HARDWARE_CURSORS = "1"; # Fix to display cursor
     NIXOS_OZONE_WL = "1"; # Use Wayland on Electron apps
+    MOZ_ENABLE_WAYLAND = "1"; # Use Wayland on Firefox
     GBM_BACKEND = "nvidia-drm";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     LIBVA_DRIVER_NAME = "nvidia";
