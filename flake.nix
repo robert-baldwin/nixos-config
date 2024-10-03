@@ -24,6 +24,7 @@
     };
     xdg-desktop-portal-hyprland.url = "github:hyprwm/xdg-desktop-portal-hyprland";
     ghostty.url = "git+ssh://git@github.com/mitchellh/ghostty";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
   outputs = { self, nixpkgs, home-manager, hyprland, ghostty, ... } @ inputs:

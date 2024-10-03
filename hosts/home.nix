@@ -1,4 +1,5 @@
 { pkgs, ... }:
+{ pkgs, inputs, config, ... }:
 
 {
   imports = [
@@ -12,6 +13,7 @@
     ../modules/programs/fish.nix
     ../modules/programs/starship.nix
     ../modules/programs/lazygit.nix
+    inputs.sops-nix.homeManagerModules.sops
   ];
 
   home.username = "sprout";
@@ -39,6 +41,15 @@
     zoom-us
     slack
   ];
+
+  sops = {
+    defaultSopsFile = ./secrets/secrets.yaml;
+    defaultSopsFormat = "yaml";
+    age.keyFile = "/home/sprout/.config/sops/age/keys.txt";
+    secrets = {
+      openai_key = { };
+    };
+  };
 
   nixpkgs.config.allowUnfree = true;
 
