@@ -3,7 +3,7 @@
 {
   imports = [
     ../modules/desktop/hyprland.nix
-    ../modules/desktop/eww.nix
+    ../modules/desktop/waybar.nix
     ../modules/programs/rofi.nix
     ../modules/programs/nvim.nix
     ../modules/programs/git.nix
@@ -39,6 +39,7 @@
     obsidian
     zoom-us
     slack
+    element-desktop-wayland
   ];
 
   home.pointerCursor =

@@ -74,7 +74,7 @@
     ];
     exec-once = [
       "swww init"
-      "eww open bar"
+      "waybar"
     ];
   };
 }

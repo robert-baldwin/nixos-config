@@ -57,7 +57,6 @@
     curl
     wget
     home-manager
-    cachix
   ];
 
   # Install fonts
