@@ -4,8 +4,7 @@
   programs.rofi = {
     enable = true;    
     theme = "DarkBlue.rasi";
-    plugins = with pkgs; [
-      rofi-emoji
-    ];
+    font = "Fira Sans 11";
+    terminal = "ghostty";
   };
 }

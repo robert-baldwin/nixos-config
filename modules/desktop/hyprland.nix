@@ -77,4 +77,22 @@
       "waybar"
     ];
   };
+  wayland.windowManager.hyprland.extraConfig = ''
+
+    windowrulev2 = float,class:(.*org.pulseaudio.pavucontrol.*)
+    windowrulev2 = size 700 600,class:(.*org.pulseaudio.pavucontrol.*)
+    windowrulev2 = center,class:(.*org.pulseaudio.pavucontrol.*)
+    windowrulev2 = pin,class:(.*org.pulseaudio.pavucontrol.*)
+
+    windowrulev2 = float,class:(blueman-manager)
+    windowrulev2 = size 700 600,class:(blueman-manager)
+    windowrulev2 = center,class:(blueman-manager)
+    windowrulev2 = pin,class:(blueman-manager)
+
+    windowrulev2 = float,class:(dotfiles-floating)
+    windowrulev2 = size 1000 700,class:(dotfiles-floating)
+    windowrulev2 = center,class:(dotfiles-floating)
+    windowrulev2 = pin,class:(dotfiles-floating)
+  '';
 }
+

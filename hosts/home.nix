@@ -22,6 +22,11 @@
     sysstat
     mako
     libnotify
+    wlogout
+    pavucontrol
+    htop
+    alacritty
+    hyprshade
     docker-compose
     swww
     spotify
